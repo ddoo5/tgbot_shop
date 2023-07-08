@@ -53,13 +53,31 @@ def info(message):
         faqChapter(message)
     elif message.text == '🔹 Product #1':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
         button1 = types.KeyboardButton('➕ Add to cart')
         button2 = types.KeyboardButton('↩️ Back')
+
         markup.row(button1, button2)
+
         bot.send_message(message.chat.id, 'Информация о первом товаре...', reply_markup=markup)
+
     elif message.text == '🔴 Product #2':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        button1 = types.KeyboardButton('↩️ Back')
+
+        markup.row(button1)
+
+        bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
 
     elif message.text == '🔴 Product #3':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        button1 = types.KeyboardButton('↩️ Back')
+
+        markup.row(button1)
+
+        bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
 
     elif message.text == '🔹 Product #4':
 
@@ -68,6 +86,13 @@ def info(message):
     elif message.text == '🔹 Product #6':
 
     elif message.text == '🔴 Product #7':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        button1 = types.KeyboardButton('↩️ Back')
+
+        markup.row(button1)
+
+        bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later',reply_markup=markup)
 
     elif message.text == '🔹 Product #8':
 
@@ -107,8 +132,7 @@ def productsChapter(message):
     markup.row(button4, button5, button6)
     markup.row(button7, button8, button9)
 
-    # Отправляем сообщение с прикрепленными к нему кнопками товаров
-    bot.send_message(message.chat.id, '🔹 - avalible\n 🔴 - sold out', reply_markup=markup)
+    bot.send_message(message.chat.id, '🔹 - available\n 🔴 - sold out', reply_markup=markup)
 
 
 # Cart
@@ -141,5 +165,5 @@ def faqChapter(message):
     bot.send_message(message.chat.id, 'Welcome to faq.\nHere you can know something about us and write to my developer ^_^', reply_markup=markup)
 
 
-# Строчка, чтобы программа не останавливалась
+# non stop
 bot.polling(none_stop=True)
