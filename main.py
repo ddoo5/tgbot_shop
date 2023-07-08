@@ -45,12 +45,16 @@ def get_photo(message):
 def info(message):
     if message.text == '🛍 Products':
         productsChapter(message)
+
     elif message.text == '🛒  Shopping cart':
         cartChapter(message)
+
     elif message.text == '⚙️ Settings':
         settingsChapter(message)
+
     elif message.text == '📄 FAQ':
         faqChapter(message)
+
     elif message.text == '🔹 Product #1':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
@@ -98,17 +102,23 @@ def info(message):
 
     elif message.text == '⚙️ Set up cart':
         bot.send_message(message.chat.id, 'Настройки номер 1...')
+
     elif message.text == '➕ Add to cart':
         #do something
         bot.send_message(message.chat.id, '✅ Added')
+
     elif message.text == '📝️ About us':
         bot.send_message(message.chat.id, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum')
+
     elif message.text == '✏️ Write to dev':
         webbrowser.open('https://t.me/l_dd_I')
+
     elif message.text == '↩️ Back':
         productsChapter(message)
+
     elif message.text == '↩️ Back to main menu':
         Greeting(message)
+        
     else:
         bot.send_message(message.chat.id, answers[random.randint(0, 3)])
 
