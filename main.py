@@ -63,7 +63,7 @@ def info(message):
 
         markup.row(button1, button2)
 
-        bot.send_message(message.chat.id, 'Информация о первом товаре...', reply_markup=markup)
+        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
 
     elif message.text == '🔴 Product #2':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -84,10 +84,19 @@ def info(message):
         bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
 
     elif message.text == '🔹 Product #4':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
 
     elif message.text == '🔹 Product #5':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
 
     elif message.text == '🔹 Product #6':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
 
     elif message.text == '🔴 Product #7':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -99,6 +108,9 @@ def info(message):
         bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later',reply_markup=markup)
 
     elif message.text == '🔹 Product #8':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
 
     elif message.text == '⚙️ Set up cart':
         bot.send_message(message.chat.id, 'Настройки номер 1...')
@@ -118,7 +130,7 @@ def info(message):
 
     elif message.text == '↩️ Back to main menu':
         Greeting(message)
-        
+
     else:
         bot.send_message(message.chat.id, answers[random.randint(0, 3)])
 
