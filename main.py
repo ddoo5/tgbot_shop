@@ -19,10 +19,10 @@ answers = ['Sorry, I don\'t understand', 'I don\'t know this command.', 'Please,
 balance = 0
 incart = False
 numberOfProduct = 0
-
 products = ['Some Camera', '', '', 'Some belt', 'Some stand for sneakers', 'Some wireless headphones', '', 'Some keyboard']
 links = ['./imgs/items/product1.jpg', '', '', './imgs/items/product4.jpeg', './imgs/items/product5.jpeg', './imgs/items/product6.jpeg', '', './imgs/items/product8.jpeg']
 cart = []
+
 
 @bot.message_handler(commands=['start'])
 def Greeting(message):
@@ -76,6 +76,7 @@ def info(message):
 
         markup.row(button1, button2)
 
+        #открытие изображения
         img = open('./imgs/items/product1.jpg', 'rb')
         bot.send_photo(message.chat.id, img)
 
@@ -248,9 +249,9 @@ def productsChapter(message):
     bot.send_message(message.chat.id, '🔹 - available\n 🔴 - sold out', reply_markup=markup)
 
 
+# Добавление в корзину
 def addToCart(num):
     num -= 1
-    lenth = len(main.cart)
     main.cart.append([main.products[num], main.links[num]])
     return True
 
@@ -271,7 +272,7 @@ def cartChapter(message):
         bot.send_message(message.chat.id, f'{message.from_user.first_name}, Welcome to your cart!\nHere is nothing', reply_markup=markup)
 
 
-# Settings
+# Balance
 def balanceChapter(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
@@ -296,6 +297,7 @@ def faqChapter(message):
     bot.send_message(message.chat.id, 'Welcome to faq.\nHere you can know something about us and write to my developer ^_^', reply_markup=markup)
 
 
+# Отображение корзины
 def dispCart(message):
     text = ''
 
