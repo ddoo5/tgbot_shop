@@ -1,6 +1,5 @@
 import random
 import telebot
-import webbrowser
 from telebot import types
 
 import main
