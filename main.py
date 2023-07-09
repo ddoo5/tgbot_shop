@@ -214,8 +214,14 @@ def info(message):
         bot.send_message(message.chat.id, 'This function is unavailable.\nSorry for that >_<, we will add it later')
 
     elif message.text == '🗂️ Display cart items':
+        items = ''
         items = dispCart(message)
-        bot.send_message(message.chat.id, f'{items}')
+
+        if items == '':
+            bot.send_message(message.chat.id, 'Nothing here')
+
+        else:
+            bot.send_message(message.chat.id, f'{items}')
 
     elif message.text == '↩️ Back':
         productsChapter(message)
