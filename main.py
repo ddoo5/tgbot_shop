@@ -3,6 +3,8 @@ import telebot
 import webbrowser
 from telebot import types
 
+import main
+
 # достаем api ключ из файла
 file = open('./apitoken.txt')
 mytoken = file.read()
@@ -13,6 +15,14 @@ bot = telebot.TeleBot(mytoken)
 # ответы на непредвиденные ситуации
 answers = ['Sorry, I don\'t understand', 'I don\'t know this command.', 'Please, try again', 'Use buttons']
 
+# переменные
+balance = 0
+incart = False
+numberOfProduct = 0
+
+products = ['Some Camera', '', '', 'Some belt', 'Some stand for sneakers', 'Some wireless headphones', '', 'Some keyboard']
+links = ['./imgs/items/product1.jpg', '', '', './imgs/items/product4.jpeg', './imgs/items/product5.jpeg', './imgs/items/product6.jpeg', '', './imgs/items/product8.jpeg']
+cart = []
 
 @bot.message_handler(commands=['start'])
 def Greeting(message):
@@ -20,7 +30,7 @@ def Greeting(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('🛍 Products')
     button2 = types.KeyboardButton('🛒  Shopping cart')
-    button3 = types.KeyboardButton('⚙️ Settings')
+    button3 = types.KeyboardButton('💰️ Balance')
     button4 = types.KeyboardButton('📄 FAQ')
 
     # разделение кнопок по строкам
@@ -49,8 +59,8 @@ def info(message):
     elif message.text == '🛒  Shopping cart':
         cartChapter(message)
 
-    elif message.text == '⚙️ Settings':
-        settingsChapter(message)
+    elif message.text == '💰️ Balance':
+        balanceChapter(message)
 
     elif message.text == '📄 FAQ':
         faqChapter(message)
@@ -58,7 +68,8 @@ def info(message):
     elif message.text == '🔹 Product #1':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
+        main.numberOfProduct = 1
 
         button1 = types.KeyboardButton('➕ Add to cart')
         button2 = types.KeyboardButton('↩️ Back')
@@ -73,7 +84,7 @@ def info(message):
     elif message.text == '🔴 Product #2':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
 
         button1 = types.KeyboardButton('↩️ Back')
 
@@ -87,7 +98,7 @@ def info(message):
     elif message.text == '🔴 Product #3':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
 
         button1 = types.KeyboardButton('↩️ Back')
 
@@ -101,7 +112,13 @@ def info(message):
     elif message.text == '🔹 Product #4':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
+        main.numberOfProduct = 4
+
+        button1 = types.KeyboardButton('➕ Add to cart')
+        button2 = types.KeyboardButton('↩️ Back')
+
+        markup.row(button1, button2)
 
         img = open('./imgs/items/product4.jpeg', 'rb')
         bot.send_photo(message.chat.id, img)
@@ -111,7 +128,13 @@ def info(message):
     elif message.text == '🔹 Product #5':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
+        main.numberOfProduct = 5
+
+        button1 = types.KeyboardButton('➕ Add to cart')
+        button2 = types.KeyboardButton('↩️ Back')
+
+        markup.row(button1, button2)
 
         img = open('./imgs/items/product5.jpeg', 'rb')
         bot.send_photo(message.chat.id, img)
@@ -121,7 +144,13 @@ def info(message):
     elif message.text == '🔹 Product #6':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
+        main.numberOfProduct = 6
+
+        button1 = types.KeyboardButton('➕ Add to cart')
+        button2 = types.KeyboardButton('↩️ Back')
+
+        markup.row(button1, button2)
 
         img = open('./imgs/items/product6.jpeg', 'rb')
         bot.send_photo(message.chat.id, img)
@@ -131,7 +160,7 @@ def info(message):
     elif message.text == '🔴 Product #7':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
 
         button1 = types.KeyboardButton('↩️ Back')
 
@@ -145,19 +174,29 @@ def info(message):
     elif message.text == '🔹 Product #8':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        incart = False
+        main.incart = False
+        main.numberOfProduct = 8
+
+        button1 = types.KeyboardButton('➕ Add to cart')
+        button2 = types.KeyboardButton('↩️ Back')
+
+        markup.row(button1, button2)
 
         img = open('./imgs/items/product8.jpeg', 'rb')
         bot.send_photo(message.chat.id, img)
 
         bot.send_message(message.chat.id, 'Some keyboard', reply_markup=markup)
 
-    elif message.text == '⚙️ Set up cart':
+    elif message.text == '💰️ Balance':
         bot.send_message(message.chat.id, 'Настройки номер 1...')
 
     elif message.text == '➕ Add to cart':
-        #do something
-        bot.send_message(message.chat.id, '✅ Added')
+        checker = addToCart(main.numberOfProduct)
+
+        if checker == True:
+            bot.send_message(message.chat.id, '✅ Added')
+        else:
+            bot.send_message(message.chat.id, '❌ Some exceptions happened\n Please, try again later or write to dev')
 
         productsChapter(message)
 
@@ -166,6 +205,16 @@ def info(message):
 
     elif message.text == '✏️ Write to dev':
         webbrowser.open('https://t.me/l_dd_I')
+
+    elif message.text == '💳 Deposit':
+        bot.send_message(message.chat.id, 'This function is unavailable.\nSorry for that >_<, we will add it later')
+
+    elif message.text == '💳 Check out':
+        bot.send_message(message.chat.id, 'This function is unavailable.\nSorry for that >_<, we will add it later')
+
+    elif message.text == '🗂️ Display cart items':
+        items = dispCart(message)
+        bot.send_message(message.chat.id, f'{items}')
 
     elif message.text == '↩️ Back':
         productsChapter(message)
@@ -199,21 +248,39 @@ def productsChapter(message):
     bot.send_message(message.chat.id, '🔹 - available\n 🔴 - sold out', reply_markup=markup)
 
 
+def addToCart(num):
+    num -= 1
+    lenth = len(main.cart)
+    main.cart.append([main.products[num], main.links[num]])
+    return True
+
+
 # Cart
 def cartChapter(message):
-    print('some')
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+    button1 = types.KeyboardButton('💳 Check out')
+    button2 = types.KeyboardButton('🗂️ Display cart items')
+    button3 = types.KeyboardButton('↩️ Back to main menu')
+
+    markup.row(button1, button2, button3)
+
+    if len(main.cart) > 0:
+        bot.send_message(message.chat.id, f'{message.from_user.first_name}, Welcome to your cart!', reply_markup=markup)
+    else:
+        bot.send_message(message.chat.id, f'{message.from_user.first_name}, Welcome to your cart!\nHere is nothing', reply_markup=markup)
 
 
 # Settings
-def settingsChapter(message):
+def balanceChapter(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-    button1 = types.KeyboardButton('⚙️ Set up cart')
+    button1 = types.KeyboardButton('💳 Deposit')
     button2 = types.KeyboardButton('↩️ Back to main menu')
 
     markup.row(button1, button2)
 
-    bot.send_message(message.chat.id, 'Here you can set up your cart', reply_markup=markup)
+    bot.send_message(message.chat.id, f'{message.from_user.first_name}, your balance is {balance}', reply_markup=markup)
 
 
 # FAQ
@@ -228,6 +295,13 @@ def faqChapter(message):
 
     bot.send_message(message.chat.id, 'Welcome to faq.\nHere you can know something about us and write to my developer ^_^', reply_markup=markup)
 
+
+def dispCart(message):
+    text = ''
+
+    for i in main.cart:
+        text += i[0] + '\n'
+    return text
 
 # non stop
 bot.polling(none_stop=True)
