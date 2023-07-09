@@ -205,7 +205,7 @@ def info(message):
         bot.send_message(message.chat.id, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum')
 
     elif message.text == '✏️ Write to dev':
-        webbrowser.open('https://t.me/l_dd_I')
+        bot.send_message(message.chat.id, 'https://t.me/l_dd_I')
 
     elif message.text == '💳 Deposit':
         bot.send_message(message.chat.id, 'This function is unavailable.\nSorry for that >_<, we will add it later')
