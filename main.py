@@ -58,59 +58,99 @@ def info(message):
     elif message.text == '🔹 Product #1':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
+        incart = False
+
         button1 = types.KeyboardButton('➕ Add to cart')
         button2 = types.KeyboardButton('↩️ Back')
 
         markup.row(button1, button2)
 
-        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
+        img = open('./imgs/items/product1.jpg', 'rb')
+        bot.send_photo(message.chat.id, img)
+
+        bot.send_message(message.chat.id, 'Some Camera', reply_markup=markup)
 
     elif message.text == '🔴 Product #2':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
+        incart = False
+
         button1 = types.KeyboardButton('↩️ Back')
 
         markup.row(button1)
+
+        img = open('./imgs/items/product2.jpeg', 'rb')
+        bot.send_photo(message.chat.id, img)
 
         bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
 
     elif message.text == '🔴 Product #3':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
+        incart = False
+
         button1 = types.KeyboardButton('↩️ Back')
 
         markup.row(button1)
+
+        img = open('./imgs/items/product3.jpeg', 'rb')
+        bot.send_photo(message.chat.id, img)
 
         bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
 
     elif message.text == '🔹 Product #4':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
+        incart = False
+
+        img = open('./imgs/items/product4.jpeg', 'rb')
+        bot.send_photo(message.chat.id, img)
+
+        bot.send_message(message.chat.id, 'Some belt', reply_markup=markup)
 
     elif message.text == '🔹 Product #5':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
+        incart = False
+
+        img = open('./imgs/items/product5.jpeg', 'rb')
+        bot.send_photo(message.chat.id, img)
+
+        bot.send_message(message.chat.id, 'Some stand for sneakers', reply_markup=markup)
 
     elif message.text == '🔹 Product #6':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
+        incart = False
+
+        img = open('./imgs/items/product6.jpeg', 'rb')
+        bot.send_photo(message.chat.id, img)
+
+        bot.send_message(message.chat.id, 'Some wireless headphones', reply_markup=markup)
 
     elif message.text == '🔴 Product #7':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
+        incart = False
+
         button1 = types.KeyboardButton('↩️ Back')
 
         markup.row(button1)
+
+        img = open('./imgs/items/product7.jpeg', 'rb')
+        bot.send_photo(message.chat.id, img)
 
         bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later',reply_markup=markup)
 
     elif message.text == '🔹 Product #8':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        bot.send_message(message.chat.id, 'nothing...', reply_markup=markup)
+        incart = False
+
+        img = open('./imgs/items/product8.jpeg', 'rb')
+        bot.send_photo(message.chat.id, img)
+
+        bot.send_message(message.chat.id, 'Some keyboard', reply_markup=markup)
 
     elif message.text == '⚙️ Set up cart':
         bot.send_message(message.chat.id, 'Настройки номер 1...')
@@ -118,6 +158,8 @@ def info(message):
     elif message.text == '➕ Add to cart':
         #do something
         bot.send_message(message.chat.id, '✅ Added')
+
+        productsChapter(message)
 
     elif message.text == '📝️ About us':
         bot.send_message(message.chat.id, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum')
