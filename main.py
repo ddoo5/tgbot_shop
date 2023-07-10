@@ -57,6 +57,7 @@ def get_photo(message):
 def info(message):
     num = 1
 
+    # снова кнопки
     if message.text == '🛍 Products':
         productsChapter(message)
 
@@ -69,6 +70,7 @@ def info(message):
     elif message.text == '📄 FAQ':
         faqChapter(message)
 
+    # сюда и нужна переменная, собственно продукты
     for a in main.products:
         if a[2] == 'available':
             if message.text == f'🔹 Product #{num}':
@@ -105,6 +107,7 @@ def info(message):
 
         num += 1
 
+    # дальше кнопки
     if message.text == '➕ Add to cart':
         checker = addToCart(main.numberOfProduct)
 
@@ -130,12 +133,13 @@ def info(message):
     elif message.text == '🗂️ Display cart items':
         items = dispCart(message)
 
-        for a in items:
-            if len(items) > 1:
-                num = items.count(a)
-                print(a + f' ({num})')
-            else:
-                print(a)
+        if items == []:
+            bot.send_message(message.chat.id, 'Nothing here')
+
+        #пробовал в функцию, там совсем не лист с main.cart
+        for a in set(items):
+            num = items.count(a)
+            bot.send_message(message.chat.id, f'{a} ({num})')
 
     elif message.text == '↩️ Back':
         productsChapter(message)
