@@ -11,15 +11,18 @@ mytoken = file.read()
 # подключаем api ключ
 bot = telebot.TeleBot(mytoken)
 
-# ответы на непредвиденные ситуации
-answers = ['Sorry, I don\'t understand', 'I don\'t know this command.', 'Please, try again', 'Use buttons']
-
 # переменные
 balance = 0
-incart = False
 numberOfProduct = 0
-products = ['Some Camera', '', '', 'Some belt', 'Some stand for sneakers', 'Some wireless headphones', '', 'Some keyboard']
-links = ['./imgs/items/product1.jpg', '', '', './imgs/items/product4.jpeg', './imgs/items/product5.jpeg', './imgs/items/product6.jpeg', '', './imgs/items/product8.jpeg']
+# есть идея реализации через сущность, но я полистал, почитал и пришел к выводу, что там куча библиотек и быстрее напишу так, нежели буду пробовать через них
+products = [['Some Camera', './imgs/items/product1.jpg', 'available'],
+            ['', './imgs/items/product2.jpeg', 'sold out'],
+            ['', './imgs/items/product3.jpeg', 'sold out'],
+            ['Some belt', './imgs/items/product4.jpeg', 'available'],
+            ['Some stand for sneakers', './imgs/items/product5.jpeg', 'available'],
+            ['Some wireless headphones', './imgs/items/product6.jpeg', 'available'],
+            ['', './imgs/items/product7.jpeg', 'sold out'],
+            ['Some keyboard', './imgs/items/product8.jpeg','available' ]]
 cart = []
 
 
@@ -52,6 +55,9 @@ def get_photo(message):
 # обработка обычных комманд из кнопок
 @bot.message_handler()
 def info(message):
+    num = 1
+
+    # снова кнопки
     if message.text == '🛍 Products':
         productsChapter(message)
 
@@ -64,133 +70,45 @@ def info(message):
     elif message.text == '📄 FAQ':
         faqChapter(message)
 
-    elif message.text == '🔹 Product #1':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    # сюда и нужна переменная, собственно продукты
+    for a in main.products:
+        if a[2] == 'available':
+            if message.text == f'🔹 Product #{num}':
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        main.incart = False
-        main.numberOfProduct = 1
+                main.numberOfProduct = num
 
-        button1 = types.KeyboardButton('➕ Add to cart')
-        button2 = types.KeyboardButton('↩️ Back')
+                button1 = types.KeyboardButton('➕ Add to cart')
+                button2 = types.KeyboardButton('↩️ Back')
 
-        markup.row(button1, button2)
+                markup.row(button1, button2)
 
-        #открытие изображения
-        img = open('./imgs/items/product1.jpg', 'rb')
-        bot.send_photo(message.chat.id, img)
+                # открытие изображения
+                img = open(f'{a[1]}', 'rb')
+                bot.send_photo(message.chat.id, img)
 
-        bot.send_message(message.chat.id, 'Some Camera', reply_markup=markup)
+                bot.send_message(message.chat.id, f'{a[0]}', reply_markup=markup)
 
-    elif message.text == '🔴 Product #2':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        elif a[2] == 'sold out':
+            if message.text == f'🔴 Product #{num}':
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-        main.incart = False
+                button1 = types.KeyboardButton('↩️ Back')
 
-        button1 = types.KeyboardButton('↩️ Back')
+                markup.row(button1)
 
-        markup.row(button1)
+                img = open(f'{a[1]}', 'rb')
+                bot.send_photo(message.chat.id, img)
 
-        img = open('./imgs/items/product2.jpeg', 'rb')
-        bot.send_photo(message.chat.id, img)
+                bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
 
-        bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
+        else:
+            print('Error in main')
 
-    elif message.text == '🔴 Product #3':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        num += 1
 
-        main.incart = False
-
-        button1 = types.KeyboardButton('↩️ Back')
-
-        markup.row(button1)
-
-        img = open('./imgs/items/product3.jpeg', 'rb')
-        bot.send_photo(message.chat.id, img)
-
-        bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later', reply_markup=markup)
-
-    elif message.text == '🔹 Product #4':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
-        main.incart = False
-        main.numberOfProduct = 4
-
-        button1 = types.KeyboardButton('➕ Add to cart')
-        button2 = types.KeyboardButton('↩️ Back')
-
-        markup.row(button1, button2)
-
-        img = open('./imgs/items/product4.jpeg', 'rb')
-        bot.send_photo(message.chat.id, img)
-
-        bot.send_message(message.chat.id, 'Some belt', reply_markup=markup)
-
-    elif message.text == '🔹 Product #5':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
-        main.incart = False
-        main.numberOfProduct = 5
-
-        button1 = types.KeyboardButton('➕ Add to cart')
-        button2 = types.KeyboardButton('↩️ Back')
-
-        markup.row(button1, button2)
-
-        img = open('./imgs/items/product5.jpeg', 'rb')
-        bot.send_photo(message.chat.id, img)
-
-        bot.send_message(message.chat.id, 'Some stand for sneakers', reply_markup=markup)
-
-    elif message.text == '🔹 Product #6':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
-        main.incart = False
-        main.numberOfProduct = 6
-
-        button1 = types.KeyboardButton('➕ Add to cart')
-        button2 = types.KeyboardButton('↩️ Back')
-
-        markup.row(button1, button2)
-
-        img = open('./imgs/items/product6.jpeg', 'rb')
-        bot.send_photo(message.chat.id, img)
-
-        bot.send_message(message.chat.id, 'Some wireless headphones', reply_markup=markup)
-
-    elif message.text == '🔴 Product #7':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
-        main.incart = False
-
-        button1 = types.KeyboardButton('↩️ Back')
-
-        markup.row(button1)
-
-        img = open('./imgs/items/product7.jpeg', 'rb')
-        bot.send_photo(message.chat.id, img)
-
-        bot.send_message(message.chat.id, 'Sorry, this product unavailable.\nPlease, come back later',reply_markup=markup)
-
-    elif message.text == '🔹 Product #8':
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-
-        main.incart = False
-        main.numberOfProduct = 8
-
-        button1 = types.KeyboardButton('➕ Add to cart')
-        button2 = types.KeyboardButton('↩️ Back')
-
-        markup.row(button1, button2)
-
-        img = open('./imgs/items/product8.jpeg', 'rb')
-        bot.send_photo(message.chat.id, img)
-
-        bot.send_message(message.chat.id, 'Some keyboard', reply_markup=markup)
-
-    elif message.text == '💰️ Balance':
-        bot.send_message(message.chat.id, 'Настройки номер 1...')
-
-    elif message.text == '➕ Add to cart':
+    # дальше кнопки
+    if message.text == '➕ Add to cart':
         checker = addToCart(main.numberOfProduct)
 
         if checker == True:
@@ -213,14 +131,15 @@ def info(message):
         bot.send_message(message.chat.id, 'This function is unavailable.\nSorry for that >_<, we will add it later')
 
     elif message.text == '🗂️ Display cart items':
-        items = ''
         items = dispCart(message)
 
-        if items == '':
+        if items == []:
             bot.send_message(message.chat.id, 'Nothing here')
 
-        else:
-            bot.send_message(message.chat.id, f'{items}')
+        #пробовал в функцию, там совсем не лист с main.cart
+        for a in set(items):
+            num = items.count(a)
+            bot.send_message(message.chat.id, f'{a} ({num})')
 
     elif message.text == '↩️ Back':
         productsChapter(message)
@@ -228,8 +147,7 @@ def info(message):
     elif message.text == '↩️ Back to main menu':
         Greeting(message)
 
-    else:
-        bot.send_message(message.chat.id, answers[random.randint(0, 3)])
+
 
 
 # Products
@@ -237,31 +155,27 @@ def productsChapter(message):
     # Кнопки для товаров
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-    button1 = types.KeyboardButton('🔹 Product #1')
-    button2 = types.KeyboardButton('🔴 Product #2')
-    button3 = types.KeyboardButton('🔴 Product #3')
-    button4 = types.KeyboardButton('🔹 Product #4')
-    button5 = types.KeyboardButton('🔹 Product #5')
-    button6 = types.KeyboardButton('🔹 Product #6')
-    button7 = types.KeyboardButton('🔴 Product #7')
-    button8 = types.KeyboardButton('🔹 Product #8')
-    button9 = types.KeyboardButton('↩️ Back to main menu')
+    num = 1
 
-    markup.row(button1, button2, button3)
-    markup.row(button4, button5, button6)
-    markup.row(button7, button8, button9)
+    # был вариант с массивом, но куда остаток девать - хз. вопрос 'а если добавят 1 товар?' не получил ответа
+    for a in main.products:
+        if a[2] == 'available':
+            markup.add(f'🔹 Product #{num}')
+        elif a[2] == 'sold out':
+            markup.add(f'🔴 Product #{num}')
+        else:
+            print('Error in method productsChapter')
+
+        num += 1
+
+    buttonBack = types.KeyboardButton('↩️ Back to main menu')
+    markup.add(buttonBack)
 
     bot.send_message(message.chat.id, '🔹 - available\n 🔴 - sold out', reply_markup=markup)
 
 
-# Добавление в корзину
-def addToCart(num):
-    num -= 1
-    main.cart.append([main.products[num], main.links[num]])
-    return True
-
-
 # Cart
+# Кстати про корзину глянул, бд хостить надо или такая пойдет(ранее ботов просто не писал, думал можно как-то легко дописать user id и все, а тут классика - через бд)?
 def cartChapter(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
@@ -302,13 +216,21 @@ def faqChapter(message):
     bot.send_message(message.chat.id, 'Welcome to faq.\nHere you can know something about us and write to my developer ^_^', reply_markup=markup)
 
 
+# Добавление в корзину
+def addToCart(num):
+    num -= 1
+    main.cart.append([main.products[num][0], main.products[num][1]])
+    return True
+
+
 # Отображение корзины
 def dispCart(message):
-    text = ''
+    text = []
 
     for i in main.cart:
-        text += i[0] + '\n'
+        text.append(i[0] + '\n')
     return text
+
 
 # non stop
 bot.polling(none_stop=True)
